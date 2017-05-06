@@ -50,7 +50,7 @@ class YiiKernel implements HttpKernelInterface
 
 	protected function getHeaders()
 	{
-		$rawHeaders = xdebug_get_headers();
+		$rawHeaders = \xdebug_get_headers();
 		$headers = array();
 		foreach($rawHeaders as $rawHeader) {
 			list($name, $value) = explode(":", $rawHeader, 2);
