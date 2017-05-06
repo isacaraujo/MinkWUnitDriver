@@ -14,26 +14,54 @@ use WUnit\Http\YiiApplication;
 
 class WUnit extends \CComponent
 {
-    private static $config = array();
 
-    public function init()
-    {
-        // @todo what with 'header already sent' error?
-        error_reporting(E_ERROR);
-    }
+	private static $config = array();
+	private $_basePath = null;
 
-    public function createClient()
-    {
-        $client = new Client(new YiiKernel());
-        return $client;
-    }
+	public function init()
+	{
+		// @todo what with 'header already sent' error?
+		error_reporting(E_ERROR);
 
-    public static function createWebApplication($config = null)
-    {
-        if ($config !== null) {
-            self::$config = $config;
-        }
+		$this->_basePath = dirname(__FILE__);
+	}
 
-        return new YiiApplication(self::$config);
-    }
+	public function createClient()
+	{
+		$client = new Client(new YiiKernel());
+		return $client;
+	}
+
+	public static function createWebApplication($config = null)
+	{
+		if ($config !== null)
+			self::$config = $config;
+
+		spl_autoload_register(array('WUnit', 'autoload'));
+
+		$basePath = dirname(__FILE__);
+
+		require_once($basePath . '/Http/YiiExitException.php');
+		require_once($basePath . '/Http/YiiApplication.php');
+		require_once($basePath . '/UploadedFile.php');
+		if (!defined('_PHP_INSULATE_'))
+			require_once($basePath . '/PHPUnit/ResultPrinter.php');
+		return new YiiApplication(self::$config);
+	}
+
+	public static function autoload($className)
+	{
+		$basePath = dirname(__FILE__);
+		$className = str_replace("Symfony\\Component\\", "", $className);
+		$className = str_replace("WUnit\\", "", $className);
+		$className = str_replace("\\", "/", $className);
+
+		$filePath = $basePath . DIRECTORY_SEPARATOR . $className . ".php";
+
+		if (!file_exists($filePath))
+			return false;
+
+		require_once $filePath;
+	}
+
 }
