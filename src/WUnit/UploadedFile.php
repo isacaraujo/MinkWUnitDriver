@@ -7,7 +7,7 @@
 
 namespace WUnit;
 
-class UploadedFile extends CUploadedFile
+class UploadedFile extends \CUploadedFile
 {
 	static private $_files;
 

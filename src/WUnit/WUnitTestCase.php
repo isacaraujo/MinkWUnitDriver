@@ -8,7 +8,7 @@
 namespace WUnit;
 
 
-abstract class WUnitTestCase extends CDbTestCase {
+abstract class WUnitTestCase extends \CDbTestCase {
 
 	public function setUp() {
 		$this->useErrorHandler = true;

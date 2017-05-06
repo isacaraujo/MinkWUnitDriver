@@ -37,7 +37,7 @@ class WUnit extends \CComponent
 		if ($config !== null)
 			self::$config = $config;
 
-		spl_autoload_register(array('WUnit', 'autoload'));
+		spl_autoload_register(array('WUnit\WUnit', 'autoload'));
 
 		$basePath = dirname(__FILE__);
 
