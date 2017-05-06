@@ -27,6 +27,6 @@ abstract class WUnitTestCase extends CDbTestCase {
 	 * @return WUnit\HttpKernel\Client
 	 */
 	public static function createClient() {
-		return Yii::app()->wunit->createClient();
+		return \Yii::app()->wunit->createClient();
 	}
 }
